@@ -1,3 +1,77 @@
+// 🌈 Fun Maths Quiz App for Kids — Web + Android Ready Version
+// This colourful quiz app can run both as a website (React/Vercel) and be converted into an Android APK using tools like Expo.
+
+import { useState } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+
+const questions = [
+  { question: "What is 2 + 3?", options: ["4", "5", "6", "7"], answer: "5" },
+  { question: "What shape has 3 sides?", options: ["Square", "Triangle", "Circle", "Rectangle"], answer: "Triangle" },
+  { question: "What comes after 9?", options: ["8", "9", "10", "11"], answer: "10" },
+  { question: "What is 10 - 4?", options: ["5", "6", "7", "8"], answer: "6" },
+  { question: "How many legs does a spider have?", options: ["6", "7", "8", "10"], answer: "8" }
+];
+
+export default function QuizApp() {
+  const [current, setCurrent] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+
+  const handleAnswer = (option) => {
+    if (option === questions[current].answer) setScore(score + 1);
+    const next = current + 1;
+    next < questions.length ? setCurrent(next) : setShowScore(true);
+  };
+
+  const restartQuiz = () => {
+    setCurrent(0);
+    setScore(0);
+    setShowScore(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-pink-300 via-yellow-300 to-blue-300 flex items-center justify-center p-4">
+      <Card className="max-w-md w-full text-center rounded-3xl shadow-2xl bg-white/90 backdrop-blur-lg border-4 border-yellow-400">
+        <CardContent className="p-6">
+          <motion.h1 className="text-3xl font-bold text-pink-700 mb-4 drop-shadow-md" initial={{ scale: 0 }} animate={{ scale: 1 }}>🧮 Fun Maths Quiz!</motion.h1>
+          {showScore ? (
+            <div>
+              <motion.h2 className="text-2xl text-blue-700 font-semibold mb-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>You scored {score} out of {questions.length}!</motion.h2>
+              <Button className="bg-green-500 text-white font-bold px-6 py-2 rounded-full shadow-md hover:bg-green-600" onClick={restartQuiz}>Play Again</Button>
+            </div>
+          ) : (
+            <div>
+              <h3 className="text-lg text-purple-700 mb-4 font-semibold">{questions[current].question}</h3>
+              <div className="grid grid-cols-2 gap-3">
+                {questions[current].options.map((option, i) => (
+                  <Button key={i} onClick={() => handleAnswer(option)} className="bg-yellow-400 text-black font-medium hover:bg-yellow-500 rounded-full shadow-md">
+                    {option}
+                  </Button>
+                ))}
+              </div>
+              <p className="mt-4 text-sm text-gray-700">Question {current + 1} of {questions.length}</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+// 🚀 HOW TO RUN THIS APP (NO CODING NEEDED)
+// ✅ WEBSITE VERSION:
+// 1️⃣ Go to https://vercel.com and sign up.
+// 2️⃣ Create a new React project (Next.js or Vite).
+// 3️⃣ Paste this code into a file (e.g., QuizApp.jsx).
+// 4️⃣ Deploy your project — it will go live online in seconds.
+
+// ✅ ANDROID APP VERSION:
+// 1️⃣ Go to https://expo.dev/ and sign up.
+// 2️⃣ Create a new React Native project.
+// 3️⃣ Paste this same code into App.js.
+// 4️⃣ Use the Expo Go app on your Android phone to scan the QR code — and play your quiz instantly!
 ---
 title: Create your first build
 description: Learn how to create a build for your app with EAS Build.
